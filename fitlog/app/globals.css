@@ -1439,3 +1439,502 @@ button {
     width: 100%;
   }
 }
+/* =========================
+   WORKOUT DETAILS LOADING
+========================= */
+
+.details-loading {
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.details-loading p {
+  margin: 16px 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.details-loading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================
+   HOME WORKOUT LOADING
+========================= */
+
+.workout-loading {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.workout-loading p {
+  margin: 16px 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.workout-loading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================
+   LOADING SPINNER
+========================= */
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: fitlog-spin 0.8s linear infinite;
+}
+
+@keyframes fitlog-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   WORKOUT NOT FOUND
+========================= */
+
+.workout-not-found {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.not-found-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.workout-not-found h1 {
+  margin: 5px 0 0;
+  font-size: 78px;
+  line-height: 0.9;
+  font-weight: 950;
+}
+
+.workout-not-found h2 {
+  margin: 18px 0 10px;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.workout-not-found > p:not(.eyebrow) {
+  max-width: 430px;
+  margin: 0 auto 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.not-found-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.not-found-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* =========================
+   NO RESULTS IMPROVEMENT
+========================= */
+
+.no-results {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.no-results .empty-icon {
+  margin-bottom: 15px;
+}
+
+.no-results h3 {
+  margin: 4px 0 8px;
+  font-size: 25px;
+  font-weight: 950;
+}
+
+.no-results p:not(.eyebrow) {
+  max-width: 400px;
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+  .workout-not-found {
+    min-height: 55vh;
+    padding: 40px 16px;
+  }
+
+  .workout-not-found h1 {
+    font-size: 62px;
+  }
+
+  .workout-not-found h2 {
+    font-size: 19px;
+  }
+
+  .workout-not-found > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+
+  .not-found-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .not-found-actions button {
+    width: 100%;
+  }
+
+  .workout-loading {
+    min-height: 260px;
+  }
+
+  .no-results {
+    min-height: 260px;
+  }
+
+  .no-results h3 {
+    font-size: 21px;
+  }
+}
+
+/* =========================
+   FINAL RESPONSIVE POLISH
+========================= */
+
+@media (max-width: 800px) {
+  .plan-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .browse-link {
+    align-self: flex-start;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 650px) {
+  .container {
+    width: min(100% - 28px, 1200px);
+  }
+
+  .plan-header h1 {
+    font-size: 38px;
+    line-height: 0.95;
+  }
+
+  .plan-header p {
+    font-size: 12px;
+  }
+
+  .plan-tabs {
+    overflow-x: auto;
+  }
+
+  .plan-tab {
+    white-space: nowrap;
+  }
+
+  .plan-workout-card {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-image {
+    width: 100%;
+    height: 190px;
+  }
+
+  .plan-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .plan-card-content {
+    padding: 16px;
+  }
+
+  .plan-card-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-actions .small-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .remove-button {
+    justify-self: end;
+  }
+
+  .empty-state {
+    padding: 35px 18px;
+  }
+
+  .empty-state h2 {
+    font-size: 24px;
+  }
+
+  .no-results {
+    min-height: 240px;
+    padding: 24px 16px;
+  }
+
+  .no-results h3 {
+    font-size: 20px;
+  }
+}
+
+/* =========================
+   404 PAGE
+========================= */
+
+.not-found-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.not-found-card {
+  width: min(100%, 520px);
+  padding: 48px 28px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.not-found-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--accent);
+}
+
+.not-found-card h1 {
+  margin: 4px 0 0;
+  font-size: 76px;
+  line-height: 0.9;
+  font-weight: 950;
+}
+
+.not-found-card h2 {
+  margin: 18px 0 10px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.not-found-card > p:not(.eyebrow) {
+  max-width: 380px;
+  margin: 0 auto 24px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.not-found-card .primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 650px) {
+  .not-found-card {
+    padding: 38px 20px;
+  }
+
+  .not-found-card h1 {
+    font-size: 62px;
+  }
+
+  .not-found-card h2 {
+    font-size: 19px;
+  }
+}
+
+/* =========================
+   NAVBAR RESPONSIVE POLISH
+========================= */
+
+@media (max-width: 800px) {
+  .navbar {
+    gap: 18px;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .nav-link {
+    font-size: 11px;
+  }
+
+  .nav-counters {
+    gap: 8px;
+  }
+
+  .counter {
+    min-width: 48px;
+  }
+
+  .counter span {
+    font-size: 9px;
+  }
+
+  .counter strong {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 650px) {
+  .site-header {
+    position: relative;
+  }
+
+  .navbar {
+    min-height: 68px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "logo counters"
+      "links links";
+    gap: 12px 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .logo {
+    grid-area: logo;
+  }
+
+  .nav-links {
+    grid-area: links;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 4px;
+  }
+
+  .nav-link {
+    flex: 1;
+    max-width: 140px;
+    padding: 9px 12px;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .nav-counters {
+    grid-area: counters;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .counter {
+    min-width: 46px;
+    padding: 6px 8px;
+  }
+
+  .counter span {
+    font-size: 8px;
+  }
+
+  .counter strong {
+    font-size: 13px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo {
+    gap: 8px;
+    font-size: 16px;
+  }
+}
+

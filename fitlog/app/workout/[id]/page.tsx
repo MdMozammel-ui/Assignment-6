@@ -40,50 +40,130 @@ export default function WorkoutDetailsPage() {
 
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [loading, setLoading] = useState(true);
+  const [notFoundError, setNotFoundError] = useState(false);
 
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
+        setLoading(true);
+        setNotFoundError(false);
+
         const response = await fetch(`${API_URL}/${params.id}`);
 
         if (!response.ok) {
-          throw new Error("Workout not found");
+          setNotFoundError(true);
+          return;
         }
 
         const data = await response.json();
 
+        if (!data || !data.id) {
+          setNotFoundError(true);
+          return;
+        }
+
         setWorkout(data);
       } catch (error) {
-        console.error(error);
-        router.push("/not-found");
+        console.error("Workout fetch error:", error);
+        setNotFoundError(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchWorkout();
-  }, [params.id, router]);
+  }, [params.id]);
+
+  /* =========================
+     LOADING
+  ========================= */
 
   if (loading) {
     return (
-      <div className="details-loading">
-        <div className="loader"></div>
-        <p>Loading workout…</p>
-      </div>
+      <main className="details-page">
+        <div className="container">
+          <div className="details-loading">
+            <div className="loading-spinner"></div>
+
+            <p>Loading workout...</p>
+
+            <span>
+              Preparing your workout details
+            </span>
+          </div>
+        </div>
+      </main>
     );
   }
 
-  if (!workout) {
-    return null;
+  /* =========================
+     WORKOUT NOT FOUND
+  ========================= */
+
+  if (notFoundError || !workout) {
+    return (
+      <main className="details-page">
+        <div className="container">
+          <div className="workout-not-found">
+
+            <div className="not-found-icon">
+              <Dumbbell size={28} />
+            </div>
+
+            <p className="eyebrow">
+              FITLOG / WORKOUT
+            </p>
+
+            <h1>404</h1>
+
+            <h2>WORKOUT NOT FOUND</h2>
+
+            <p>
+              We couldn&apos;t find the workout you&apos;re
+              looking for. It may have been removed or the
+              workout ID may be invalid.
+            </p>
+
+            <div className="not-found-actions">
+
+              <button
+                className="primary-button"
+                onClick={() => router.push("/")}
+              >
+                <ArrowLeft size={16} />
+                BACK TO WORKOUTS
+              </button>
+
+              <button
+                className="secondary-button"
+                onClick={() => router.back()}
+              >
+                GO BACK
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+      </main>
+    );
   }
 
- const alreadyInPlan = plan.some(
-  (item: Workout) => item.id === workout.id
-);
+  /* =========================
+     PLAN / SAVED STATUS
+  ========================= */
 
-const alreadySaved = saved.some(
-  (item: Workout) => item.id === workout.id
-);
+  const alreadyInPlan = plan.some(
+    (item: Workout) => item.id === workout.id
+  );
+
+  const alreadySaved = saved.some(
+    (item: Workout) => item.id === workout.id
+  );
+
+  /* =========================
+     ADD TO PLAN
+  ========================= */
 
   const handleAddToPlan = () => {
     const result = addToPlan(workout);
@@ -94,6 +174,10 @@ const alreadySaved = saved.some(
       toast.error(result.message);
     }
   };
+
+  /* =========================
+     SAVE WORKOUT
+  ========================= */
 
   const handleSave = () => {
     const result = saveWorkout(workout);
@@ -108,7 +192,9 @@ const alreadySaved = saved.some(
   return (
     <main className="details-page">
       <div className="container">
-        {/* Back button */}
+
+        {/* BACK BUTTON */}
+
         <button
           className="back-button"
           onClick={() => router.back()}
@@ -118,8 +204,13 @@ const alreadySaved = saved.some(
         </button>
 
         <div className="details-grid">
-          {/* LEFT IMAGE */}
+
+          {/* =========================
+              LEFT IMAGE
+          ========================= */}
+
           <div className="details-image-wrapper">
+
             <img
               src={workout.image}
               alt={workout.name}
@@ -129,11 +220,18 @@ const alreadySaved = saved.some(
             <div className="image-label">
               FITLOG / WORKOUT
             </div>
+
           </div>
 
-          {/* RIGHT CONTENT */}
+          {/* =========================
+              RIGHT CONTENT
+          ========================= */}
+
           <div className="details-content">
-            <p className="eyebrow">WORKOUT DETAILS</p>
+
+            <p className="eyebrow">
+              WORKOUT DETAILS
+            </p>
 
             <h1 className="details-title">
               {workout.name.toUpperCase()}
@@ -144,16 +242,22 @@ const alreadySaved = saved.some(
             </p>
 
             {/* TAGS */}
+
             <div className="details-tags">
               {workout.muscleGroups.map((group) => (
-                <span className="tag" key={group}>
+                <span
+                  className="tag"
+                  key={group}
+                >
                   {group}
                 </span>
               ))}
             </div>
 
             {/* SPECS */}
+
             <div className="specs-panel">
+
               <div className="spec-row">
                 <span>EQUIPMENT</span>
                 <strong>{workout.equipment}</strong>
@@ -176,43 +280,64 @@ const alreadySaved = saved.some(
 
               <div className="spec-row">
                 <span>DURATION</span>
-                <strong>{workout.duration} min</strong>
+                <strong>
+                  {workout.duration} min
+                </strong>
               </div>
 
               <div className="spec-row">
                 <span>CALORIES</span>
-                <strong>{workout.caloriesBurned} kcal</strong>
+                <strong>
+                  {workout.caloriesBurned} kcal
+                </strong>
               </div>
 
               <div className="spec-row">
                 <span>RATING</span>
+
                 <strong className="rating-value">
                   <Star size={15} />
                   {workout.rating}
                 </strong>
               </div>
+
             </div>
 
             {/* INSTRUCTIONS */}
+
             <div className="instructions">
+
               <h2>INSTRUCTIONS</h2>
 
               <ol>
-                {workout.instructions.map((instruction, index) => (
-                  <li key={index}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <p>{instruction}</p>
-                  </li>
-                ))}
+                {workout.instructions.map(
+                  (instruction, index) => (
+                    <li key={index}>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <p>{instruction}</p>
+
+                    </li>
+                  )
+                )}
               </ol>
+
             </div>
 
             {/* ACTIONS */}
+
             <div className="details-actions">
+
               <button
                 className="primary-button details-action"
                 onClick={handleAddToPlan}
-                disabled={alreadyInPlan || plan.length >= 5}
+                disabled={
+                  alreadyInPlan ||
+                  plan.length >= 5
+                }
               >
                 {alreadyInPlan ? (
                   <>
@@ -244,28 +369,40 @@ const alreadySaved = saved.some(
                   </>
                 )}
               </button>
+
             </div>
 
             {/* QUICK STATS */}
+
             <div className="quick-stats">
+
               <div>
                 <Clock3 size={16} />
-                <span>{workout.duration} MIN</span>
+                <span>
+                  {workout.duration} MIN
+                </span>
               </div>
 
               <div>
                 <Flame size={16} />
-                <span>{workout.caloriesBurned} KCAL</span>
+                <span>
+                  {workout.caloriesBurned} KCAL
+                </span>
               </div>
 
               <div>
                 <Star size={16} />
-                <span>{workout.rating} RATING</span>
+                <span>
+                  {workout.rating} RATING
+                </span>
               </div>
+
             </div>
+
           </div>
         </div>
       </div>
     </main>
   );
 }
+
