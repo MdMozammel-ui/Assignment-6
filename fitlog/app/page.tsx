@@ -1,69 +1,263 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import {
+  ArrowDown,
+  Clock3,
+  Flame,
+  Star,
+} from "lucide-react";
+
+type Workout = {
+  id: number;
+  name: string;
+  image: string;
+  muscleGroups: string[];
+  equipment: string;
+  difficulty: string;
+  duration: number;
+  caloriesBurned: number;
+  sets: number;
+  reps: string;
+  rating: number;
+  description: string;
+  instructions: string[];
+};
+
+const API_URL = "https://api.abcz.workers.dev/api/fitlog";
 
 export default function Home() {
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("duration");
+
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch workouts");
+        }
+
+        const data = await response.json();
+
+        setWorkouts(data);
+      } catch (error) {
+        console.error("Workout fetch error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkouts();
+  }, []);
+
+  const sortedWorkouts = useMemo(() => {
+    const copied = [...workouts];
+
+    if (sortBy === "duration") {
+      copied.sort((a, b) => a.duration - b.duration);
+    }
+
+    if (sortBy === "calories") {
+      copied.sort((a, b) => b.caloriesBurned - a.caloriesBurned);
+    }
+
+    if (sortBy === "rating") {
+      copied.sort((a, b) => b.rating - a.rating);
+    }
+
+    return copied;
+  }, [workouts, sortBy]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <>
+      {/* HERO */}
+      <section className="hero">
+        <div className="container hero-grid">
+          <div>
+            <p className="eyebrow">WORKOUT LIBRARY</p>
+
+            <h1 className="hero-title">
+              TRAIN WITH INTENT.
+              <br />
+              LOG EVERY SET.
+            </h1>
+
+            <p className="hero-description">
+              FitLog is a dark, no-nonsense gym companion: pick a lift,
+              lock it into today&apos;s plan, and watch the week&apos;s work
+              add up.
+            </p>
+
+            <a href="#library" className="primary-button">
+              BROWSE WORKOUTS
+              <ArrowDown size={16} />
+            </a>
+          </div>
+
+          <div className="hero-image">
+            <img
+              src={
+                workouts[0]?.image ||
+                "https://img.magnific.com/free-photo/portrait-anime-character-doing-fitness-exercising_23-2151666664.jpg?w=740"
+              }
+              alt="Workout"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* LIBRARY */}
+      <section id="library" className="library">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">EXPLORE THE MOVEMENTS</p>
+
+              <h2>THE LIBRARY</h2>
+            </div>
+
+            <p>
+              Twelve lifts covering every major muscle group. Choose your
+              movement and build today&apos;s training plan.
+            </p>
+          </div>
+
+          {/* Sort */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "24px",
+            }}
+          >
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                color: "#9b9f9a",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              SORT BY
+
+              <div
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  style={{
+                    appearance: "none",
+                    background: "#121513",
+                    color: "#f4f5f0",
+                    border: "1px solid #292e2a",
+                    borderRadius: "7px",
+                    padding: "10px 38px 10px 13px",
+                    outline: "none",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                  }}
+                >
+                  <option value="duration">Duration</option>
+                  <option value="calories">Calories</option>
+                  <option value="rating">Rating</option>
+                </select>
+
+                <ArrowDown
+                  size={14}
+                  style={{
+                    position: "absolute",
+                    right: "12px",
+                    pointerEvents: "none",
+                  }}
+                />
+              </div>
+            </label>
+          </div>
+
+          {/* Loading */}
+          {loading && (
+            <div className="loading-screen">
+              <div>
+                <div className="loader"></div>
+
+                <p
+                  style={{
+                    marginTop: "16px",
+                    color: "#9b9f9a",
+                    fontSize: "13px",
+                    textAlign: "center",
+                  }}
+                >
+                  Loading workouts…
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Cards */}
+          {!loading && (
+            <div className="workout-grid">
+              {sortedWorkouts.map((workout) => (
+                <Link
+                  href={`/workout/${workout.id}`}
+                  key={workout.id}
+                  className="workout-card"
+                >
+                  <div className="card-image">
+                    <img src={workout.image} alt={workout.name} />
+                  </div>
+
+                  <div className="card-content">
+                    <div className="tags">
+                      {workout.muscleGroups.map((group) => (
+                        <span className="tag" key={group}>
+                          {group}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h3 className="card-title">
+                      {workout.name.toUpperCase()}
+                    </h3>
+
+                    <p className="card-equipment">
+                      {workout.equipment}
+                    </p>
+
+                    <div className="card-stats">
+                      <span className="card-stat">
+                        <Clock3 size={13} />
+                        {workout.duration} min
+                      </span>
+
+                      <span className="card-stat">
+                        <Flame size={13} />
+                        {workout.caloriesBurned} kcal
+                      </span>
+
+                      <span className="card-stat">
+                        <Star size={13} />
+                        {workout.rating}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }
