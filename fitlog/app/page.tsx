@@ -7,6 +7,7 @@ import {
   Clock3,
   Flame,
   Star,
+  Search,
 } from "lucide-react";
 
 type Workout = {
@@ -31,6 +32,8 @@ export default function Home() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("duration");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -54,8 +57,44 @@ export default function Home() {
     fetchWorkouts();
   }, []);
 
+  /* =========================
+     CATEGORIES
+  ========================= */
+  const categories = useMemo(() => {
+    const allCategories = workouts.flatMap(
+      (workout) => workout.muscleGroups
+    );
+
+    return ["ALL", ...new Set(allCategories)];
+  }, [workouts]);
+
+  /* =========================
+     SEARCH + CATEGORY FILTER
+  ========================= */
+  const filteredWorkouts = useMemo(() => {
+    const search = searchTerm.toLowerCase().trim();
+
+    return workouts.filter((workout) => {
+      const matchesSearch =
+        workout.name.toLowerCase().includes(search) ||
+        workout.equipment.toLowerCase().includes(search) ||
+        workout.muscleGroups.some((group) =>
+          group.toLowerCase().includes(search)
+        );
+
+      const matchesCategory =
+        selectedCategory === "ALL" ||
+        workout.muscleGroups.includes(selectedCategory);
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [workouts, searchTerm, selectedCategory]);
+
+  /* =========================
+     SORT
+  ========================= */
   const sortedWorkouts = useMemo(() => {
-    const copied = [...workouts];
+    const copied = [...filteredWorkouts];
 
     if (sortBy === "duration") {
       copied.sort((a, b) => a.duration - b.duration);
@@ -70,11 +109,13 @@ export default function Home() {
     }
 
     return copied;
-  }, [workouts, sortBy]);
+  }, [filteredWorkouts, sortBy]);
 
   return (
     <>
-      {/* HERO */}
+      {/* =========================
+          HERO
+      ========================= */}
       <section className="hero">
         <div className="container hero-grid">
           <div>
@@ -110,9 +151,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* LIBRARY */}
+      {/* =========================
+          LIBRARY
+      ========================= */}
       <section id="library" className="library">
         <div className="container">
+          {/* SECTION HEADING */}
           <div className="section-heading">
             <div>
               <p className="eyebrow">EXPLORE THE MOVEMENTS</p>
@@ -126,66 +170,61 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Sort */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "24px",
-            }}
-          >
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                color: "#9b9f9a",
-                fontSize: "12px",
-                fontWeight: 700,
-              }}
-            >
+          {/* =========================
+              LIBRARY CONTROLS
+          ========================= */}
+          <div className="library-controls">
+            {/* SEARCH */}
+            <div className="search-box">
+              <Search size={16} />
+
+              <input
+                type="text"
+                placeholder="Search workouts..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            {/* CATEGORY FILTERS */}
+            <div className="category-filters">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  className={
+                    selectedCategory === category
+                      ? "category-filter active"
+                      : "category-filter"
+                  }
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* SORT */}
+            <label className="sort-control">
               SORT BY
 
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <div className="sort-select-wrapper">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  style={{
-                    appearance: "none",
-                    background: "#121513",
-                    color: "#f4f5f0",
-                    border: "1px solid #292e2a",
-                    borderRadius: "7px",
-                    padding: "10px 38px 10px 13px",
-                    outline: "none",
-                    cursor: "pointer",
-                    fontSize: "12px",
-                  }}
                 >
                   <option value="duration">Duration</option>
                   <option value="calories">Calories</option>
                   <option value="rating">Rating</option>
                 </select>
 
-                <ArrowDown
-                  size={14}
-                  style={{
-                    position: "absolute",
-                    right: "12px",
-                    pointerEvents: "none",
-                  }}
-                />
+                <ArrowDown size={14} />
               </div>
             </label>
           </div>
 
-          {/* Loading */}
+          {/* =========================
+              LOADING
+          ========================= */}
           {loading && (
             <div className="loading-screen">
               <div>
@@ -205,7 +244,9 @@ export default function Home() {
             </div>
           )}
 
-          {/* Cards */}
+          {/* =========================
+              WORKOUT CARDS
+          ========================= */}
           {!loading && (
             <div className="workout-grid">
               {sortedWorkouts.map((workout) => (
@@ -214,11 +255,17 @@ export default function Home() {
                   key={workout.id}
                   className="workout-card"
                 >
+                  {/* IMAGE */}
                   <div className="card-image">
-                    <img src={workout.image} alt={workout.name} />
+                    <img
+                      src={workout.image}
+                      alt={workout.name}
+                    />
                   </div>
 
+                  {/* CONTENT */}
                   <div className="card-content">
+                    {/* MUSCLE GROUP TAGS */}
                     <div className="tags">
                       {workout.muscleGroups.map((group) => (
                         <span className="tag" key={group}>
@@ -227,14 +274,17 @@ export default function Home() {
                       ))}
                     </div>
 
+                    {/* NAME */}
                     <h3 className="card-title">
                       {workout.name.toUpperCase()}
                     </h3>
 
+                    {/* EQUIPMENT */}
                     <p className="card-equipment">
                       {workout.equipment}
                     </p>
 
+                    {/* STATS */}
                     <div className="card-stats">
                       <span className="card-stat">
                         <Clock3 size={13} />
@@ -256,8 +306,32 @@ export default function Home() {
               ))}
             </div>
           )}
+
+          {/* =========================
+              NO RESULTS
+          ========================= */}
+          {!loading && sortedWorkouts.length === 0 && (
+            <div className="no-results">
+              <h3>NO WORKOUTS FOUND</h3>
+
+              <p>
+                Try another workout name, equipment, or muscle group.
+              </p>
+
+              <button
+                className="primary-button"
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedCategory("ALL");
+                }}
+              >
+                CLEAR FILTERS
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>
   );
 }
+
