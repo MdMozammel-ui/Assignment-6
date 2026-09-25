@@ -35,6 +35,7 @@ export default function MyPlanPage() {
   const {
     plan,
     saved,
+    addToPlan,
     removeFromPlan,
     removeSaved,
     markAsDone,
@@ -68,6 +69,16 @@ export default function MyPlanPage() {
     toast.success("Workout removed from saved");
   };
 
+  const handleAddSavedToPlan = (workout: Workout) => {
+    const result = addToPlan(workout);
+
+    if (result.success) {
+      toast.success("Added to today's plan");
+    } else {
+      toast.error(result.message);
+    }
+  };
+
   const handleDone = (id: number) => {
     markAsDone(id);
     toast.success("Workout marked as done");
@@ -76,6 +87,7 @@ export default function MyPlanPage() {
   return (
     <main className="my-plan-page">
       <div className="container">
+
         {/* PAGE HEADER */}
         <section className="plan-header">
           <div>
@@ -96,6 +108,7 @@ export default function MyPlanPage() {
 
         {/* METRICS */}
         <section className="metrics-grid">
+
           <div className="metric-card">
             <div className="metric-icon">
               <Dumbbell size={19} />
@@ -128,12 +141,18 @@ export default function MyPlanPage() {
               <strong>{planCalories}</strong>
             </div>
           </div>
+
         </section>
 
         {/* TABS */}
         <div className="plan-tabs">
+
           <button
-            className={activeTab === "plan" ? "plan-tab active" : "plan-tab"}
+            className={
+              activeTab === "plan"
+                ? "plan-tab active"
+                : "plan-tab"
+            }
             onClick={() => setActiveTab("plan")}
           >
             TODAY&apos;S PLAN
@@ -141,17 +160,23 @@ export default function MyPlanPage() {
           </button>
 
           <button
-            className={activeTab === "saved" ? "plan-tab active" : "plan-tab"}
+            className={
+              activeTab === "saved"
+                ? "plan-tab active"
+                : "plan-tab"
+            }
             onClick={() => setActiveTab("saved")}
           >
             SAVED
             <span>{saved.length}</span>
           </button>
+
         </div>
 
         {/* TODAY'S PLAN */}
         {activeTab === "plan" && (
           <section className="plan-list">
+
             {plan.length === 0 ? (
               <EmptyState />
             ) : (
@@ -164,12 +189,14 @@ export default function MyPlanPage() {
                 />
               ))
             )}
+
           </section>
         )}
 
         {/* SAVED */}
         {activeTab === "saved" && (
           <section className="plan-list">
+
             {saved.length === 0 ? (
               <SavedEmptyState />
             ) : (
@@ -178,19 +205,25 @@ export default function MyPlanPage() {
                   key={workout.id}
                   workout={workout}
                   onRemove={handleRemoveSaved}
+                  onAddToPlan={handleAddSavedToPlan}
+                  alreadyInPlan={plan.some(
+                    (item: Workout) => item.id === workout.id
+                  )}
                 />
               ))
             )}
+
           </section>
         )}
+
       </div>
     </main>
   );
 }
 
-/* =========================================
+/* =========================================================
    PLAN WORKOUT CARD
-========================================= */
+========================================================= */
 
 function PlanWorkoutCard({
   workout,
@@ -210,14 +243,22 @@ function PlanWorkoutCard({
       }
     >
       <div className="plan-card-image">
-        <img src={workout.image} alt={workout.name} />
+        <img
+          src={workout.image}
+          alt={workout.name}
+        />
       </div>
 
       <div className="plan-card-content">
+
         <div className="plan-card-main">
+
           <div className="tags">
             {workout.muscleGroups.map((group) => (
-              <span className="tag" key={group}>
+              <span
+                className="tag"
+                key={group}
+              >
                 {group}
               </span>
             ))}
@@ -228,6 +269,7 @@ function PlanWorkoutCard({
           <p>{workout.equipment}</p>
 
           <div className="plan-card-stats">
+
             <span>
               <Clock3 size={14} />
               {workout.duration} min
@@ -242,10 +284,13 @@ function PlanWorkoutCard({
               <Star size={14} />
               {workout.rating}
             </span>
+
           </div>
+
         </div>
 
         <div className="plan-card-actions">
+
           <Link
             href={`/workout/${workout.id}`}
             className="small-button secondary-small"
@@ -260,7 +305,9 @@ function PlanWorkoutCard({
           >
             <Check size={15} />
 
-            {workout.completed ? "DONE" : "MARK AS DONE"}
+            {workout.completed
+              ? "DONE"
+              : "MARK AS DONE"}
           </button>
 
           <button
@@ -270,34 +317,49 @@ function PlanWorkoutCard({
           >
             <Trash2 size={17} />
           </button>
+
         </div>
+
       </div>
     </article>
   );
 }
 
-/* =========================================
+/* =========================================================
    SAVED WORKOUT CARD
-========================================= */
+========================================================= */
 
 function SavedWorkoutCard({
   workout,
   onRemove,
+  onAddToPlan,
+  alreadyInPlan,
 }: {
   workout: Workout;
   onRemove: (id: number) => void;
+  onAddToPlan: (workout: Workout) => void;
+  alreadyInPlan: boolean;
 }) {
   return (
     <article className="plan-workout-card">
+
       <div className="plan-card-image">
-        <img src={workout.image} alt={workout.name} />
+        <img
+          src={workout.image}
+          alt={workout.name}
+        />
       </div>
 
       <div className="plan-card-content">
+
         <div className="plan-card-main">
+
           <div className="tags">
             {workout.muscleGroups.map((group) => (
-              <span className="tag" key={group}>
+              <span
+                className="tag"
+                key={group}
+              >
                 {group}
               </span>
             ))}
@@ -308,6 +370,7 @@ function SavedWorkoutCard({
           <p>{workout.equipment}</p>
 
           <div className="plan-card-stats">
+
             <span>
               <Clock3 size={14} />
               {workout.duration} min
@@ -322,10 +385,13 @@ function SavedWorkoutCard({
               <Star size={14} />
               {workout.rating}
             </span>
+
           </div>
+
         </div>
 
         <div className="plan-card-actions">
+
           <Link
             href={`/workout/${workout.id}`}
             className="small-button secondary-small"
@@ -334,30 +400,47 @@ function SavedWorkoutCard({
           </Link>
 
           <button
+            className="small-button done-button"
+            onClick={() => onAddToPlan(workout)}
+            disabled={alreadyInPlan}
+          >
+            <Dumbbell size={14} />
+
+            {alreadyInPlan
+              ? "ALREADY IN PLAN"
+              : "ADD TO PLAN"}
+          </button>
+
+          <button
             className="remove-button"
             onClick={() => onRemove(workout.id)}
             aria-label="Remove saved workout"
           >
             <Trash2 size={17} />
           </button>
+
         </div>
+
       </div>
     </article>
   );
 }
 
-/* =========================================
+/* =========================================================
    EMPTY STATES
-========================================= */
+========================================================= */
 
 function EmptyState() {
   return (
     <div className="empty-state">
+
       <div className="empty-icon">
         <Dumbbell size={25} />
       </div>
 
-      <p className="eyebrow">TODAY&apos;S PLAN</p>
+      <p className="eyebrow">
+        TODAY&apos;S PLAN
+      </p>
 
       <h2>NOTHING HERE YET</h2>
 
@@ -365,10 +448,14 @@ function EmptyState() {
         Browse the library and add a lift to get today moving.
       </p>
 
-      <Link href="/" className="primary-button">
+      <Link
+        href="/"
+        className="primary-button"
+      >
         GO TO WORKOUTS
         <ArrowRight size={16} />
       </Link>
+
     </div>
   );
 }
@@ -376,11 +463,14 @@ function EmptyState() {
 function SavedEmptyState() {
   return (
     <div className="empty-state">
+
       <div className="empty-icon">
         <Star size={25} />
       </div>
 
-      <p className="eyebrow">SAVED WORKOUTS</p>
+      <p className="eyebrow">
+        SAVED WORKOUTS
+      </p>
 
       <h2>NOTHING SAVED YET</h2>
 
@@ -388,10 +478,15 @@ function SavedEmptyState() {
         Save your favorite workouts here and come back to them later.
       </p>
 
-      <Link href="/" className="primary-button">
+      <Link
+        href="/"
+        className="primary-button"
+      >
         GO TO WORKOUTS
         <ArrowRight size={16} />
       </Link>
+
     </div>
   );
 }
+
