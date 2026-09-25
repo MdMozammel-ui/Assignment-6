@@ -31,18 +31,32 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input,
+select {
   font: inherit;
 }
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
 }
 
-/* 
+/* =========================
    NAVBAR
- */
+========================= */
 
 .site-header {
   position: sticky;
@@ -76,6 +90,7 @@ button {
   height: 36px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   background: var(--accent);
   color: #0b0d0c;
   border-radius: 9px;
@@ -134,9 +149,9 @@ button {
   color: var(--text);
 }
 
-/* 
+/* =========================
    HERO
- */
+========================= */
 
 .hero {
   padding: 90px 0 70px;
@@ -179,6 +194,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  min-height: 48px;
   padding: 15px 22px;
   border: none;
   border-radius: 7px;
@@ -208,14 +224,14 @@ button {
 .hero-image img {
   width: 100%;
   height: 440px;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
   filter: saturate(0.8);
 }
 
-/* 
+/* =========================
    LIBRARY
- */
+========================= */
 
 .library {
   padding: 70px 0 100px;
@@ -244,6 +260,10 @@ button {
   line-height: 1.6;
 }
 
+/* =========================
+   WORKOUT GRID
+========================= */
+
 .workout-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -251,6 +271,7 @@ button {
 }
 
 .workout-card {
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -329,11 +350,125 @@ button {
   display: flex;
   align-items: center;
   gap: 5px;
+  white-space: nowrap;
 }
 
-/*
+/* =========================
+   LIBRARY CONTROLS
+========================= */
+
+.library-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.search-box {
+  height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.search-box:focus-within {
+  border-color: var(--accent);
+}
+
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.search-box input::placeholder {
+  color: #70756f;
+}
+
+.category-filters {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.category-filter {
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.category-filter:hover {
+  border-color: #5b625a;
+  color: var(--text);
+}
+
+.category-filter.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #0b0d0c;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.sort-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sort-select-wrapper select {
+  min-width: 120px;
+  height: 38px;
+  appearance: none;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.sort-select-wrapper svg {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  color: var(--muted);
+}
+
+/* =========================
    LOADING
- */
+========================= */
 
 .loading-screen {
   min-height: 400px;
@@ -350,15 +485,87 @@ button {
   animation: spin 0.8s linear infinite;
 }
 
+.workout-loading {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.workout-loading p {
+  margin: 16px 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.workout-loading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: fitlog-spin 0.8s linear infinite;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* 
+@keyframes fitlog-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.no-results .empty-icon {
+  margin-bottom: 15px;
+}
+
+.no-results h3 {
+  margin: 4px 0 8px;
+  font-size: 25px;
+  font-weight: 950;
+}
+
+.no-results p:not(.eyebrow) {
+  max-width: 400px;
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================
    FOOTER
- */
+========================= */
 
 .site-footer {
   border-top: 1px solid var(--border);
@@ -379,103 +586,9 @@ button {
   font-size: 12px;
 }
 
-/* 
-   RESPONSIVE
- */
-
-@media (max-width: 1000px) {
-  .workout-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-image {
-    max-width: 700px;
-  }
-}
-
-@media (max-width: 760px) {
-  .container {
-    width: min(100% - 28px, 680px);
-  }
-
-  .navbar {
-    min-height: auto;
-    padding: 14px 0;
-    flex-wrap: wrap;
-  }
-
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .nav-counters {
-    margin-left: auto;
-  }
-
-  .hero {
-    padding: 60px 0 50px;
-  }
-
-  .hero-title {
-    letter-spacing: -2px;
-  }
-
-  .hero-image,
-  .hero-image img {
-    min-height: 330px;
-    height: 330px;
-  }
-
-  .section-heading {
-    align-items: start;
-    flex-direction: column;
-  }
-
-  .workout-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .footer-content {
-    padding: 30px 0;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 520px) {
-  .logo {
-    font-size: 18px;
-  }
-
-  .counter {
-    min-width: 70px;
-  }
-
-  .workout-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-title {
-    font-size: 48px;
-  }
-
-  .hero-description {
-    font-size: 14px;
-  }
-
-  .card-image {
-    height: 240px;
-  }
-}
-/* 
-   WORKOUT DETAILS PAGE
- */
+/* =========================
+   WORKOUT DETAILS
+========================= */
 
 .details-page {
   padding: 45px 0 100px;
@@ -710,86 +823,91 @@ button {
 }
 
 .details-loading {
-  min-height: 70vh;
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 15px;
-  color: var(--muted);
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .details-loading p {
-  margin: 0;
-  font-size: 13px;
+  margin: 16px 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
 }
 
-/* 
-   DETAILS RESPONSIVE
- */
-
-@media (max-width: 900px) {
-  .details-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .details-image-wrapper {
-    position: relative;
-    top: auto;
-    min-height: 450px;
-  }
-
-  .details-image {
-    height: 450px;
-  }
-
-  .details-content {
-    max-width: 800px;
-  }
-}
-
-@media (max-width: 600px) {
-  .details-page {
-    padding: 30px 0 70px;
-  }
-
-  .details-image-wrapper {
-    min-height: 340px;
-  }
-
-  .details-image {
-    height: 340px;
-  }
-
-  .details-title {
-    font-size: 43px;
-    letter-spacing: -1.8px;
-  }
-
-  .details-description {
-    font-size: 14px;
-  }
-
-  .spec-row {
-    min-height: 55px;
-  }
-
-  .spec-row strong {
-    max-width: 55%;
-  }
-
-  .details-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-stats {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
+.details-loading span {
+  color: var(--muted);
+  font-size: 11px;
 }
 
 /* =========================
-   MY PLAN PAGE
+   WORKOUT NOT FOUND
+========================= */
+
+.workout-not-found {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.not-found-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.workout-not-found h1 {
+  margin: 5px 0 0;
+  font-size: 78px;
+  line-height: 0.9;
+  font-weight: 950;
+}
+
+.workout-not-found h2 {
+  margin: 18px 0 10px;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.workout-not-found > p:not(.eyebrow) {
+  max-width: 430px;
+  margin: 0 auto 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.not-found-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.not-found-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* =========================
+   MY PLAN
 ========================= */
 
 .my-plan-page {
@@ -835,7 +953,9 @@ button {
   text-decoration: underline;
 }
 
-/* METRICS */
+/* =========================
+   METRICS
+========================= */
 
 .metrics-grid {
   display: grid;
@@ -885,7 +1005,9 @@ button {
   font-weight: 950;
 }
 
-/* TABS */
+/* =========================
+   PLAN TABS
+========================= */
 
 .plan-tabs {
   display: flex;
@@ -907,6 +1029,7 @@ button {
   font-weight: 900;
   letter-spacing: 1px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .plan-tab span {
@@ -940,7 +1063,9 @@ button {
   background: var(--accent);
 }
 
-/* PLAN LIST */
+/* =========================
+   PLAN LIST
+========================= */
 
 .plan-list {
   display: flex;
@@ -1025,13 +1150,16 @@ button {
   gap: 5px;
   color: #aeb3ad;
   font-size: 10px;
+  white-space: nowrap;
 }
 
 .plan-card-stats svg {
   color: var(--accent);
 }
 
-/* ACTIONS */
+/* =========================
+   PLAN ACTIONS
+========================= */
 
 .plan-card-actions {
   flex-shrink: 0;
@@ -1052,6 +1180,7 @@ button {
   font-weight: 900;
   letter-spacing: 0.7px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .secondary-small {
@@ -1085,6 +1214,7 @@ button {
   height: 37px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border: 1px solid #3c413d;
   border-radius: 6px;
   background: transparent;
@@ -1097,7 +1227,9 @@ button {
   color: #fff;
 }
 
-/* EMPTY */
+/* =========================
+   EMPTY STATE
+========================= */
 
 .empty-state {
   min-height: 390px;
@@ -1157,606 +1289,7 @@ button {
 }
 
 /* =========================
-   MY PLAN RESPONSIVE
-========================= */
-
-@media (max-width: 900px) {
-  .plan-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .metrics-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .plan-workout-card {
-    grid-template-columns: 170px 1fr;
-  }
-
-  .plan-card-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .plan-card-actions {
-    width: 100%;
-  }
-}
-
-@media (max-width: 650px) {
-  .my-plan-page {
-    padding: 50px 0 80px;
-  }
-
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-card {
-    min-height: 95px;
-  }
-
-  .plan-workout-card {
-    grid-template-columns: 1fr;
-  }
-
-  .plan-card-image {
-    height: 210px;
-    min-height: auto;
-  }
-
-  .plan-card-image img {
-    height: 210px;
-    min-height: auto;
-  }
-
-  .plan-card-content {
-    padding: 20px;
-  }
-
-  .plan-card-actions {
-    flex-wrap: wrap;
-  }
-
-  .small-button {
-    flex: 1;
-  }
-
-  .remove-button {
-    flex-shrink: 0;
-  }
-}
-
-@media (max-width: 430px) {
-  .plan-header h1 {
-    font-size: 48px;
-    letter-spacing: -2px;
-  }
-
-  .plan-tab {
-    flex: 1;
-    justify-content: center;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-  .plan-card-main h2 {
-    font-size: 18px;
-  }
-
-  .plan-card-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr 40px;
-  }
-
-  .small-button {
-    padding-left: 7px;
-    padding-right: 7px;
-  }
-}
-
-/* 
-   LIBRARY CONTROLS
- */
-
-.library-controls {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) auto auto;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.search-box {
-  height: 43px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 13px;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  background: var(--surface);
-  color: var(--muted);
-}
-
-.search-box:focus-within {
-  border-color: var(--accent);
-}
-
-.search-box input {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 12px;
-}
-
-.search-box input::placeholder {
-  color: #70756f;
-}
-
-.category-filters {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-
-.category-filter {
-  min-height: 36px;
-  padding: 0 11px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.category-filter:hover {
-  border-color: #5b625a;
-  color: var(--text);
-}
-
-.category-filter.active {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: #0b0d0c;
-}
-
-.sort-control {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.sort-select-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.sort-select-wrapper select {
-  min-width: 120px;
-  height: 38px;
-  appearance: none;
-  padding: 0 34px 0 12px;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  outline: none;
-  background: var(--surface);
-  color: var(--text);
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.sort-select-wrapper svg {
-  position: absolute;
-  right: 10px;
-  pointer-events: none;
-  color: var(--muted);
-}
-
-/* No search result */
-
-.no-results {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed #343a35;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.no-results h3 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 950;
-}
-
-.no-results p {
-  margin: 10px 0 20px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* CONTROLS RESPONSIVE */
-
-@media (max-width: 1050px) {
-  .library-controls {
-    grid-template-columns: 1fr auto;
-  }
-
-  .category-filters {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-
-  .sort-control {
-    justify-self: end;
-  }
-}
-
-@media (max-width: 650px) {
-  .library-controls {
-    grid-template-columns: 1fr;
-  }
-
-  .category-filters {
-    grid-column: auto;
-    grid-row: auto;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 4px;
-  }
-
-  .category-filter {
-    flex-shrink: 0;
-  }
-
-  .sort-control {
-    justify-self: stretch;
-    justify-content: space-between;
-  }
-
-  .sort-select-wrapper {
-    flex: 1;
-  }
-
-  .sort-select-wrapper select {
-    width: 100%;
-  }
-}
-/* =========================
-   WORKOUT DETAILS LOADING
-========================= */
-
-.details-loading {
-  min-height: 55vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.details-loading p {
-  margin: 16px 0 4px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.details-loading span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-/* =========================
-   HOME WORKOUT LOADING
-========================= */
-
-.workout-loading {
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  text-align: center;
-}
-
-.workout-loading p {
-  margin: 16px 0 4px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.workout-loading span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-/* =========================
-   LOADING SPINNER
-========================= */
-
-.loading-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: fitlog-spin 0.8s linear infinite;
-}
-
-@keyframes fitlog-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* =========================
-   WORKOUT NOT FOUND
-========================= */
-
-.workout-not-found {
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 20px;
-  text-align: center;
-}
-
-.not-found-icon {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--accent);
-  background: var(--surface);
-}
-
-.workout-not-found h1 {
-  margin: 5px 0 0;
-  font-size: 78px;
-  line-height: 0.9;
-  font-weight: 950;
-}
-
-.workout-not-found h2 {
-  margin: 18px 0 10px;
-  font-size: 23px;
-  font-weight: 900;
-}
-
-.workout-not-found > p:not(.eyebrow) {
-  max-width: 430px;
-  margin: 0 auto 25px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.not-found-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.not-found-actions button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-/* =========================
-   NO RESULTS IMPROVEMENT
-========================= */
-
-.no-results {
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 35px 20px;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  text-align: center;
-}
-
-.no-results .empty-icon {
-  margin-bottom: 15px;
-}
-
-.no-results h3 {
-  margin: 4px 0 8px;
-  font-size: 25px;
-  font-weight: 950;
-}
-
-.no-results p:not(.eyebrow) {
-  max-width: 400px;
-  margin: 0 0 20px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 650px) {
-  .workout-not-found {
-    min-height: 55vh;
-    padding: 40px 16px;
-  }
-
-  .workout-not-found h1 {
-    font-size: 62px;
-  }
-
-  .workout-not-found h2 {
-    font-size: 19px;
-  }
-
-  .workout-not-found > p:not(.eyebrow) {
-    font-size: 12px;
-  }
-
-  .not-found-actions {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .not-found-actions button {
-    width: 100%;
-  }
-
-  .workout-loading {
-    min-height: 260px;
-  }
-
-  .no-results {
-    min-height: 260px;
-  }
-
-  .no-results h3 {
-    font-size: 21px;
-  }
-}
-
-/* =========================
-   FINAL RESPONSIVE POLISH
-========================= */
-
-@media (max-width: 800px) {
-  .plan-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-  }
-
-  .browse-link {
-    align-self: flex-start;
-  }
-
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .plan-card-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-  }
-
-  .plan-card-actions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 650px) {
-  .container {
-    width: min(100% - 28px, 1200px);
-  }
-
-  .plan-header h1 {
-    font-size: 38px;
-    line-height: 0.95;
-  }
-
-  .plan-header p {
-    font-size: 12px;
-  }
-
-  .plan-tabs {
-    overflow-x: auto;
-  }
-
-  .plan-tab {
-    white-space: nowrap;
-  }
-
-  .plan-workout-card {
-    grid-template-columns: 1fr;
-  }
-
-  .plan-card-image {
-    width: 100%;
-    height: 190px;
-  }
-
-  .plan-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .plan-card-content {
-    padding: 16px;
-  }
-
-  .plan-card-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .plan-card-actions .small-button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .remove-button {
-    justify-self: end;
-  }
-
-  .empty-state {
-    padding: 35px 18px;
-  }
-
-  .empty-state h2 {
-    font-size: 24px;
-  }
-
-  .no-results {
-    min-height: 240px;
-    padding: 24px 16px;
-  }
-
-  .no-results h3 {
-    font-size: 20px;
-  }
-}
-
-/* =========================
-   404 PAGE
+   GLOBAL 404
 ========================= */
 
 .not-found-page {
@@ -1776,7 +1309,7 @@ button {
   text-align: center;
 }
 
-.not-found-icon {
+.not-found-card .not-found-icon {
   width: 58px;
   height: 58px;
   margin: 0 auto 20px;
@@ -1786,6 +1319,7 @@ button {
   border: 1px solid var(--border);
   border-radius: 50%;
   color: var(--accent);
+  background: transparent;
 }
 
 .not-found-card h1 {
@@ -1816,23 +1350,96 @@ button {
   gap: 8px;
 }
 
-@media (max-width: 650px) {
-  .not-found-card {
-    padding: 38px 20px;
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+  .library-controls {
+    grid-template-columns: 1fr auto;
   }
 
-  .not-found-card h1 {
-    font-size: 62px;
+  .category-filters {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
-  .not-found-card h2 {
-    font-size: 19px;
+  .sort-control {
+    justify-self: end;
   }
 }
 
-/* =========================
-   NAVBAR RESPONSIVE POLISH
-========================= */
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 1000px) {
+  .container {
+    width: min(100% - 32px, 900px);
+  }
+
+  .workout-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-image {
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .details-image-wrapper {
+    position: relative;
+    top: auto;
+    min-height: 450px;
+  }
+
+  .details-image {
+    height: 450px;
+  }
+
+  .details-content {
+    max-width: 800px;
+  }
+
+  .plan-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .browse-link {
+    align-self: flex-start;
+  }
+
+  .plan-workout-card {
+    grid-template-columns: 170px 1fr;
+  }
+
+  .plan-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
 
 @media (max-width: 800px) {
   .navbar {
@@ -1862,15 +1469,38 @@ button {
   .counter strong {
     font-size: 14px;
   }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .browse-link {
+    align-self: flex-start;
+  }
 }
 
-/* =========================
-   SMALL MOBILE
-========================= */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 650px) {
+  .container {
+    width: min(100% - 28px, 1200px);
+  }
+
+  /* -------------------------
+     NAVBAR
+  ------------------------- */
+
   .site-header {
-    position: relative;
+    position: sticky;
+    top: 0;
   }
 
   .navbar {
@@ -1887,6 +1517,13 @@ button {
 
   .logo {
     grid-area: logo;
+    gap: 8px;
+    font-size: 16px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
   }
 
   .nav-links {
@@ -1927,14 +1564,1415 @@ button {
     font-size: 13px;
   }
 
-  .logo-icon {
-    width: 32px;
-    height: 32px;
+  /* -------------------------
+     HERO
+  ------------------------- */
+
+  .hero {
+    padding: 55px 0 45px;
+  }
+
+  .hero-grid {
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 12vw, 56px);
+    line-height: 0.94;
+    letter-spacing: -2px;
+  }
+
+  .hero-description {
+    margin: 22px 0 25px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .primary-button {
+    width: auto;
+    min-height: 46px;
+    padding: 13px 17px;
+    font-size: 11px;
+  }
+
+  .hero-image,
+  .hero-image img {
+    min-height: 330px;
+    height: 330px;
+  }
+
+  /* -------------------------
+     LIBRARY
+  ------------------------- */
+
+  .library {
+    padding: 50px 0 75px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 28px;
+  }
+
+  .section-heading h2 {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+
+  .section-heading p {
+    font-size: 13px;
+  }
+
+  .library-controls {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .category-filters {
+    grid-column: auto;
+    grid-row: auto;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .category-filter {
+    flex-shrink: 0;
+  }
+
+  .sort-control {
+    width: 100%;
+    justify-self: stretch;
+    justify-content: space-between;
+  }
+
+  .sort-select-wrapper {
+    flex: 1;
+  }
+
+  .sort-select-wrapper select {
+    width: 100%;
+  }
+
+  .workout-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .card-image {
+    height: 240px;
+  }
+
+  .card-content {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-stats {
+    font-size: 10px;
+  }
+
+  .workout-loading {
+    min-height: 260px;
+  }
+
+  .no-results {
+    min-height: 240px;
+    padding: 24px 16px;
+  }
+
+  .no-results h3 {
+    font-size: 20px;
+  }
+
+  /* -------------------------
+     DETAILS
+  ------------------------- */
+
+  .details-page {
+    padding: 30px 0 70px;
+  }
+
+  .back-button {
+    margin-bottom: 25px;
+  }
+
+  .details-grid {
+    gap: 30px;
+  }
+
+  .details-image-wrapper {
+    min-height: 340px;
+    border-radius: 12px;
+  }
+
+  .details-image {
+    height: 340px;
+  }
+
+  .details-title {
+    font-size: 43px;
+    letter-spacing: -1.8px;
+  }
+
+  .details-description {
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .details-tags {
+    margin-bottom: 24px;
+  }
+
+  .spec-row {
+    min-height: 55px;
+  }
+
+  .spec-row span {
+    font-size: 9px;
+  }
+
+  .spec-row strong {
+    max-width: 55%;
+    font-size: 12px;
+  }
+
+  .details-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .details-action {
+    width: 100%;
+  }
+
+  .quick-stats {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .details-loading {
+    min-height: 55vh;
+  }
+
+  /* -------------------------
+     WORKOUT 404
+  ------------------------- */
+
+  .workout-not-found {
+    min-height: 55vh;
+    padding: 40px 16px;
+  }
+
+  .workout-not-found h1 {
+    font-size: 62px;
+  }
+
+  .workout-not-found h2 {
+    font-size: 19px;
+  }
+
+  .workout-not-found > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+
+  .not-found-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .not-found-actions button {
+    width: 100%;
+  }
+
+  /* -------------------------
+     MY PLAN
+  ------------------------- */
+
+  .my-plan-page {
+    padding: 50px 0 80px;
+  }
+
+  .plan-header h1 {
+    font-size: 38px;
+    line-height: 0.95;
+    letter-spacing: -2px;
+  }
+
+  .plan-header > div > p:last-child {
+    margin-top: 14px;
+    font-size: 12px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .metric-card {
+    min-height: 95px;
+    padding: 18px;
+  }
+
+  .metric-card strong {
+    font-size: 27px;
+  }
+
+  .plan-tabs {
+    overflow-x: auto;
+    margin-bottom: 18px;
+  }
+
+  .plan-tab {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 13px 15px;
+  }
+
+  .plan-workout-card {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-image {
+    width: 100%;
+    height: 190px;
+    min-height: auto;
+  }
+
+  .plan-card-image img {
+    width: 100%;
+    height: 100%;
+    min-height: auto;
+    object-fit: cover;
+  }
+
+  .plan-card-content {
+    padding: 16px;
+    gap: 18px;
+  }
+
+  .plan-card-main h2 {
+    font-size: 18px;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .plan-card-actions .small-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .remove-button {
+    justify-self: end;
+  }
+
+  .empty-state {
+    min-height: 300px;
+    padding: 35px 18px;
+  }
+
+  .empty-state h2 {
+    font-size: 24px;
+  }
+
+  /* -------------------------
+     FOOTER
+  ------------------------- */
+
+  .footer-content {
+    min-height: auto;
+    padding: 30px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .footer-content p {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  /* -------------------------
+     GLOBAL 404
+  ------------------------- */
+
+  .not-found-page {
+    min-height: 65vh;
+    padding: 35px 16px;
+  }
+
+  .not-found-card {
+    padding: 38px 20px;
+  }
+
+  .not-found-card h1 {
+    font-size: 62px;
+  }
+
+  .not-found-card h2 {
+    font-size: 19px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .hero-title {
+    font-size: 43px;
+    letter-spacing: -1.8px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .hero-image,
+  .hero-image img {
+    min-height: 280px;
+    height: 280px;
+  }
+
+  .section-heading h2 {
+    font-size: 37px;
+  }
+
+  .card-image {
+    height: 220px;
+  }
+
+  .card-stats {
+    gap: 5px;
+  }
+
+  .card-stat {
+    font-size: 9px;
+    gap: 3px;
+  }
+
+  .details-title {
+    font-size: 38px;
+  }
+
+  .details-image-wrapper,
+  .details-image {
+    min-height: 290px;
+    height: 290px;
+  }
+
+  .quick-stats {
+    gap: 12px;
+  }
+
+  .quick-stats div {
+    font-size: 8px;
+  }
+
+  .plan-header h1 {
+    font-size: 36px;
+  }
+
+  .plan-tab {
+    flex: 1;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 10px;
+  }
+
+  .plan-card-main h2 {
+    font-size: 17px;
+  }
+
+  .plan-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+  }
+
+  .small-button {
+    padding-left: 7px;
+    padding-right: 7px;
+    font-size: 8px;
+  }
+
+  .remove-button {
+    width: 40px;
+    height: 37px;
+  }
+
+  .not-found-card {
+    padding: 34px 18px;
+  }
+
+  .not-found-card h1 {
+    font-size: 56px;
+  }
+
+  .not-found-card h2 {
+    font-size: 18px;
+  }
+}
+
+/* =========================================================
+   FITLOG - MOBILE RESPONSIVE FIX
+   Paste this at the VERY END of app/globals.css
+   ========================================================= */
+
+/* ---------- General mobile safety ---------- */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+a {
+  max-width: 100%;
+}
+
+.container {
+  width: min(1180px, calc(100% - 40px));
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .container {
+    width: min(100% - 32px, 1180px);
+  }
+
+  /* Hero */
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero-image {
+    width: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
+
+  /* Workout details */
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .details-image {
+    width: 100%;
+  }
+
+  .details-image img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: cover;
+  }
+
+  /* Workout grid */
+  .workout-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* My Plan */
+  .plan-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  /* ---------- GLOBAL ---------- */
+
+  * {
+    max-width: 100%;
+  }
+
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: calc(100% - 28px);
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  /* =======================================================
+     NAVBAR
+     ======================================================= */
+
+  .site-header {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .navbar {
+    width: 100%;
+    min-height: auto;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    grid-template-areas:
+      "logo counters"
+      "links links";
+
+    gap: 12px 10px;
+
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 
   .logo {
+    grid-area: logo;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
     gap: 8px;
+
     font-size: 16px;
+    line-height: 1;
+
+    white-space: nowrap;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-counters {
+    grid-area: counters;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    min-width: 0;
+  }
+
+  .counter {
+    min-width: 58px;
+    width: auto;
+
+    padding: 6px 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 5px;
+
+    white-space: nowrap;
+  }
+
+  .counter span {
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .counter strong {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .nav-links {
+    grid-area: links;
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+    padding-top: 3px;
+  }
+
+  .nav-link {
+    width: 100%;
+    max-width: none;
+
+    padding: 10px 8px;
+
+    text-align: center;
+
+    font-size: 10px;
+    line-height: 1.2;
+
+    white-space: nowrap;
+  }
+
+
+  /* =======================================================
+     HERO
+     ======================================================= */
+
+  .hero {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+
+    width: 100%;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero-content h1 {
+    width: 100%;
+
+    font-size: clamp(38px, 12vw, 56px);
+    line-height: 0.95;
+
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .hero-content p {
+    width: 100%;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+  }
+
+  .hero-content .primary-button,
+  .hero-content a {
+    max-width: 100%;
+  }
+
+  .hero-image {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-image img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 420px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+  }
+
+
+  /* =======================================================
+     SECTION HEADINGS
+     ======================================================= */
+
+  .section-header {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+  .section-header h2 {
+    max-width: 100%;
+
+    font-size: clamp(28px, 9vw, 42px);
+    line-height: 1;
+
+    overflow-wrap: anywhere;
+  }
+
+  .section-header p {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+
+  /* =======================================================
+     LIBRARY CONTROLS
+     ======================================================= */
+
+  .library-controls {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
+
+  .library-controls input,
+  .library-controls select,
+  .library-controls button {
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
+  }
+
+
+  /* =======================================================
+     WORKOUT GRID
+     ======================================================= */
+
+  .workout-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .workout-card {
+    width: 100%;
+    min-width: 0;
+
+    overflow: hidden;
+  }
+
+  .workout-card-image {
+    width: 100%;
+
+    height: auto;
+    min-height: 190px;
+    max-height: 260px;
+  }
+
+  .workout-card-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: 100%;
+
+    object-fit: cover;
+  }
+
+  .workout-card-content {
+    width: 100%;
+    min-width: 0;
+
+    padding: 15px;
+  }
+
+  .workout-card-content h3 {
+    max-width: 100%;
+
+    font-size: 18px;
+    line-height: 1.25;
+
+    overflow-wrap: anywhere;
+  }
+
+  .workout-card-content p {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+  }
+
+  .workout-card-footer {
+    width: 100%;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+  }
+
+  .workout-card-footer button,
+  .workout-card-footer a {
+    max-width: 100%;
+  }
+
+
+  /* =======================================================
+     LOADING
+     ======================================================= */
+
+  .workout-loading,
+  .details-loading {
+    width: 100%;
+    min-height: 260px;
+
+    padding: 30px 15px;
+  }
+
+  .loading-spinner {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  /* =======================================================
+     NO RESULTS
+     ======================================================= */
+
+  .no-results {
+    width: 100%;
+
+    min-height: 220px;
+
+    padding: 25px 15px;
+
+    text-align: center;
+  }
+
+  .no-results h3 {
+    font-size: 20px;
+
+    overflow-wrap: anywhere;
+  }
+
+  .no-results p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+
+  /* =======================================================
+     WORKOUT DETAILS
+     ======================================================= */
+
+  .details-page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .details-grid {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+  .details-image {
+    width: 100%;
+    min-width: 0;
+
+    overflow: hidden;
+  }
+
+  .details-image img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 430px;
+
+    object-fit: cover;
+  }
+
+  .details-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .details-content h1 {
+    max-width: 100%;
+
+    font-size: clamp(30px, 9vw, 46px);
+    line-height: 1;
+
+    overflow-wrap: anywhere;
+  }
+
+  .details-content p {
+    max-width: 100%;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+  }
+
+  .details-actions {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
+
+  .details-actions button,
+  .details-actions a {
+    width: 100%;
+    max-width: 100%;
+  }
+
+
+  /* =======================================================
+     MY PLAN
+     ======================================================= */
+
+  .plan-page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .plan-header {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .plan-header h1 {
+    max-width: 100%;
+
+    font-size: clamp(34px, 10vw, 48px);
+    line-height: 0.95;
+
+    overflow-wrap: anywhere;
+  }
+
+  .plan-header p {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .browse-link {
+    align-self: flex-start;
+
+    max-width: 100%;
+  }
+
+  .metrics-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .metric-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .plan-tabs {
+    width: 100%;
+
+    display: flex;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .plan-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .plan-tab {
+    flex-shrink: 0;
+
+    white-space: nowrap;
+  }
+
+  .plan-workout-card {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    overflow: hidden;
+  }
+
+  .plan-card-image {
+    width: 100%;
+
+    height: 190px;
+  }
+
+  .plan-card-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  .plan-card-content {
+    width: 100%;
+    min-width: 0;
+
+    padding: 16px;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .plan-card-content h3 {
+    max-width: 100%;
+
+    font-size: 18px;
+
+    overflow-wrap: anywhere;
+  }
+
+  .plan-card-content p {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+  }
+
+  .plan-card-actions .small-button {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .remove-button {
+    justify-self: end;
+  }
+
+  .empty-state {
+    width: 100%;
+
+    padding: 35px 18px;
+  }
+
+  .empty-state h2 {
+    max-width: 100%;
+
+    font-size: 24px;
+
+    overflow-wrap: anywhere;
+  }
+
+  .empty-state p {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+
+  /* =======================================================
+     404
+     ======================================================= */
+
+  .not-found-page {
+    width: 100%;
+
+    min-height: calc(100vh - 80px);
+
+    padding: 30px 0;
+  }
+
+  .not-found-card {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 30px 20px;
+  }
+
+  .not-found-card h1 {
+    font-size: clamp(70px, 22vw, 110px);
+    line-height: 0.85;
+  }
+
+  .not-found-card h2 {
+    max-width: 100%;
+
+    font-size: 22px;
+    line-height: 1.1;
+
+    overflow-wrap: anywhere;
+  }
+
+  .not-found-card > p:not(.eyebrow) {
+    max-width: 100%;
+
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .not-found-card .primary-button {
+    width: 100%;
+    max-width: 100%;
+
+    justify-content: center;
+  }
+
+  .workout-not-found {
+    width: 100%;
+
+    padding: 30px 16px;
+  }
+
+  .workout-not-found h2 {
+    max-width: 100%;
+
+    font-size: 24px;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* =======================================================
+     FOOTER
+     ======================================================= */
+
+  .site-footer {
+    width: 100%;
+
+    overflow: hidden;
+  }
+
+  .footer-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+  .footer-content,
+  .footer-column {
+    min-width: 0;
+  }
+
+  .footer-column a,
+  .footer-column p {
+    overflow-wrap: anywhere;
   }
 }
+
+
+/* =========================================================
+   VERY SMALL PHONES - 320px to 380px
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .container {
+    width: calc(100% - 22px);
+  }
+
+  /* Navbar */
+  .navbar {
+    gap: 10px 7px;
+  }
+
+  .logo {
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  .logo-icon {
+    width: 29px;
+    height: 29px;
+    min-width: 29px;
+  }
+
+  .nav-counters {
+    gap: 4px;
+  }
+
+  .counter {
+    min-width: 51px;
+    padding: 5px 6px;
+
+    gap: 3px;
+  }
+
+  .counter span {
+    font-size: 7px;
+  }
+
+  .counter strong {
+    font-size: 12px;
+  }
+
+  .nav-links {
+    gap: 6px;
+  }
+
+  .nav-link {
+    padding: 9px 5px;
+    font-size: 9px;
+  }
+
+  /* Hero */
+  .hero {
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+
+  .hero-content h1 {
+    font-size: 39px;
+  }
+
+  .hero-content p {
+    font-size: 12px;
+  }
+
+  /* Buttons */
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+    max-width: 100%;
+
+    justify-content: center;
+
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Cards */
+  .workout-card-image {
+    min-height: 170px;
+    max-height: 220px;
+  }
+
+  .workout-card-content {
+    padding: 13px;
+  }
+
+  .workout-card-content h3 {
+    font-size: 17px;
+  }
+
+  /* Details */
+  .details-content h1 {
+    font-size: 32px;
+  }
+
+  /* Plan */
+  .plan-header h1 {
+    font-size: 35px;
+  }
+
+  .plan-card-image {
+    height: 170px;
+  }
+
+  /* 404 */
+  .not-found-card {
+    padding: 25px 15px;
+  }
+
+  .not-found-card h1 {
+    font-size: 75px;
+  }
+}
+
 
