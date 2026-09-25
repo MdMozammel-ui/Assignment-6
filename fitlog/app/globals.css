@@ -787,3 +787,471 @@ button {
     gap: 15px;
   }
 }
+
+/* =========================
+   MY PLAN PAGE
+========================= */
+
+.my-plan-page {
+  min-height: 80vh;
+  padding: 70px 0 110px;
+}
+
+.plan-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.plan-header h1 {
+  margin: 0;
+  font-size: clamp(48px, 7vw, 78px);
+  line-height: 0.95;
+  letter-spacing: -3px;
+  font-weight: 950;
+}
+
+.plan-header > div > p:last-child {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.browse-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  white-space: nowrap;
+}
+
+.browse-link:hover {
+  text-decoration: underline;
+}
+
+/* METRICS */
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 45px;
+}
+
+.metric-card {
+  min-height: 125px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.metric-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: rgba(204, 255, 0, 0.08);
+  color: var(--accent);
+}
+
+.metric-card div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metric-card span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.metric-card strong {
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 950;
+}
+
+/* TABS */
+
+.plan-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.plan-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 18px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.plan-tab span {
+  min-width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #222722;
+  color: #aeb3ac;
+  font-size: 9px;
+}
+
+.plan-tab.active {
+  color: var(--accent);
+}
+
+.plan-tab.active span {
+  background: var(--accent);
+  color: #0b0d0c;
+}
+
+.plan-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* PLAN LIST */
+
+.plan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.plan-workout-card {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  transition: 0.25s;
+}
+
+.plan-workout-card:hover {
+  border-color: #4d544d;
+}
+
+.plan-workout-card.completed {
+  opacity: 0.65;
+}
+
+.plan-workout-card.completed h2 {
+  text-decoration: line-through;
+  text-decoration-color: var(--accent);
+}
+
+.plan-card-image {
+  min-height: 190px;
+}
+
+.plan-card-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 190px;
+  display: block;
+  object-fit: cover;
+}
+
+.plan-card-content {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 22px 25px;
+}
+
+.plan-card-main {
+  min-width: 0;
+}
+
+.plan-card-main .tags {
+  margin-bottom: 9px;
+}
+
+.plan-card-main h2 {
+  margin: 0 0 7px;
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 950;
+}
+
+.plan-card-main > p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.plan-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.plan-card-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #aeb3ad;
+  font-size: 10px;
+}
+
+.plan-card-stats svg {
+  color: var(--accent);
+}
+
+/* ACTIONS */
+
+.plan-card-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.small-button {
+  min-height: 37px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+  cursor: pointer;
+}
+
+.secondary-small {
+  border: 1px solid #444a45;
+  background: transparent;
+  color: var(--text);
+}
+
+.secondary-small:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.done-button {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #0b0d0c;
+}
+
+.done-button:hover {
+  background: #ddff55;
+}
+
+.done-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.remove-button {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #3c413d;
+  border-radius: 6px;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  border-color: #777;
+  color: #fff;
+}
+
+/* EMPTY */
+
+.empty-state {
+  min-height: 390px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 1px dashed #333934;
+  border-radius: 12px;
+  text-align: center;
+  background: rgba(18, 21, 19, 0.45);
+}
+
+.empty-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 50%;
+  background: rgba(204, 255, 0, 0.08);
+  color: var(--accent);
+}
+
+.empty-state .eyebrow {
+  margin-bottom: 8px;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 950;
+  letter-spacing: -0.5px;
+}
+
+.empty-state > p:not(.eyebrow) {
+  max-width: 420px;
+  margin: 12px 0 24px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.plan-loading {
+  min-height: 500px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 15px;
+  color: var(--muted);
+}
+
+.plan-loading p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* =========================
+   MY PLAN RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .plan-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .plan-workout-card {
+    grid-template-columns: 170px 1fr;
+  }
+
+  .plan-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .plan-card-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+  .my-plan-page {
+    padding: 50px 0 80px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card {
+    min-height: 95px;
+  }
+
+  .plan-workout-card {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card-image {
+    height: 210px;
+    min-height: auto;
+  }
+
+  .plan-card-image img {
+    height: 210px;
+    min-height: auto;
+  }
+
+  .plan-card-content {
+    padding: 20px;
+  }
+
+  .plan-card-actions {
+    flex-wrap: wrap;
+  }
+
+  .small-button {
+    flex: 1;
+  }
+
+  .remove-button {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .plan-header h1 {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
+
+  .plan-tab {
+    flex: 1;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .plan-card-main h2 {
+    font-size: 18px;
+  }
+
+  .plan-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+  }
+
+  .small-button {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+}

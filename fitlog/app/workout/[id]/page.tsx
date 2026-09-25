@@ -77,8 +77,13 @@ export default function WorkoutDetailsPage() {
     return null;
   }
 
-  const alreadyInPlan = plan.some((item) => item.id === workout.id);
-  const alreadySaved = saved.some((item) => item.id === workout.id);
+ const alreadyInPlan = plan.some(
+  (item: Workout) => item.id === workout.id
+);
+
+const alreadySaved = saved.some(
+  (item: Workout) => item.id === workout.id
+);
 
   const handleAddToPlan = () => {
     const result = addToPlan(workout);
