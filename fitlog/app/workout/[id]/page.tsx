@@ -30,7 +30,7 @@ type Workout = {
   instructions: string[];
 };
 
-const API_URL = "https://api.abcz.workers.dev/api/fitlog";
+const API_URL = "/api/fitlog";
 
 export default function WorkoutDetailsPage() {
   const params = useParams();

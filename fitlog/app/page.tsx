@@ -26,8 +26,7 @@ type Workout = {
   instructions: string[];
 };
 
-const API_URL =
-  "https://api.abcz.workers.dev/api/fitlog";
+const API_URL = "/api/fitlog";
 
 export default function Home() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
