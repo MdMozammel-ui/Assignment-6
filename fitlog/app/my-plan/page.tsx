@@ -7,7 +7,7 @@ import {
   Dumbbell,
   Flame,
   Star,
-  Trash2,
+  X,
   ArrowRight,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -311,12 +311,12 @@ function PlanWorkoutCard({
           </button>
 
           <button
-            className="remove-button"
-            onClick={() => onRemove(workout.id)}
-            aria-label="Remove workout"
-          >
-            <Trash2 size={17} />
-          </button>
+  className="remove-button"
+  onClick={() => onRemove(workout.id)}
+  aria-label="Remove workout"
+>
+  <X size={18} strokeWidth={2.5} />
+</button>
 
         </div>
 
@@ -412,12 +412,12 @@ function SavedWorkoutCard({
           </button>
 
           <button
-            className="remove-button"
-            onClick={() => onRemove(workout.id)}
-            aria-label="Remove saved workout"
-          >
-            <Trash2 size={17} />
-          </button>
+  className="remove-button"
+  onClick={() => onRemove(workout.id)}
+  aria-label="Remove saved workout"
+>
+  <X size={18} strokeWidth={2.5} />
+</button>
 
         </div>
 

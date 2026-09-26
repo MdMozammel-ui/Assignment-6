@@ -332,25 +332,12 @@ export default function WorkoutDetailsPage() {
             <div className="details-actions">
 
               <button
-                className="primary-button details-action"
-                onClick={handleAddToPlan}
-                disabled={
-                  alreadyInPlan ||
-                  plan.length >= 5
-                }
-              >
-                {alreadyInPlan ? (
-                  <>
-                    <Check size={17} />
-                    IN TODAY&apos;S PLAN
-                  </>
-                ) : (
-                  <>
-                    <Dumbbell size={17} />
-                    ADD TO TODAY&apos;S PLAN
-                  </>
-                )}
-              </button>
+  className="primary-button details-action"
+  onClick={handleAddToPlan}
+>
+  <Dumbbell size={17} />
+  ADD TO TODAY'S PLAN
+</button>
 
               <button
                 className="secondary-button details-action"

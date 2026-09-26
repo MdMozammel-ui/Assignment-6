@@ -209,6 +209,8 @@ img {
   font-weight: 900;
   letter-spacing: 1px;
   transition: all 0.25s ease;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 .primary-button:hover {
@@ -891,7 +893,16 @@ img {
   gap: 10px;
   margin-top: auto;
   padding-top: 28px;
+}
+
+.details-action {
   min-height: 50px;
+
+  white-space: nowrap;
+  flex-wrap: nowrap;
+
+  font-size: 11px;
+  letter-spacing: .8px;
 }
 
 .details-action:disabled {

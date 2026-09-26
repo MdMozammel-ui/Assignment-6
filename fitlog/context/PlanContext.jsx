@@ -39,31 +39,32 @@ export function PlanProvider({ children }) {
     }
   }, [saved, hydrated]);
 
-  const addToPlan = (workout) => {
-    if (plan.length >= 5) {
-      return {
-        success: false,
-        message: "Today's plan can contain maximum 5 lifts.",
-      };
-    }
+ const addToPlan = (workout) => {
+  // আগে duplicate check
+  const alreadyExists = plan.some((item) => item.id === workout.id);
 
-    const alreadyExists = plan.some((item) => item.id === workout.id);
-
-    if (alreadyExists) {
-      return {
-        success: false,
-        message: "This workout is already in today's plan.",
-      };
-    }
-
-    setPlan((previous) => [...previous, workout]);
-
+  if (alreadyExists) {
     return {
-      success: true,
-      message: "Added to today's plan",
+      success: false,
+      message: "Already in your plan",
     };
-  };
+  }
 
+  // তারপর ৫টা limit check
+  if (plan.length >= 5) {
+    return {
+      success: false,
+      message: "Today's plan can contain maximum 5 lifts.",
+    };
+  }
+
+  setPlan((previous) => [...previous, workout]);
+
+  return {
+    success: true,
+    message: "Added to today's plan",
+  };
+};
   const removeFromPlan = (id) => {
     setPlan((previous) => previous.filter((item) => item.id !== id));
   };
