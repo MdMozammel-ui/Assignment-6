@@ -154,14 +154,18 @@ img {
 ========================= */
 
 .hero {
-  padding: 90px 0 70px;
+  padding: 80px 0;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
+  gap: 70px;
+}
+
+.hero-content {
+  max-width: 560px;
 }
 
 .eyebrow {
@@ -169,21 +173,22 @@ img {
   color: var(--accent);
   font-size: 12px;
   font-weight: 900;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
 .hero-title {
-  max-width: 760px;
   margin: 0;
-  font-size: clamp(48px, 7vw, 88px);
-  line-height: 0.92;
-  font-weight: 950;
-  letter-spacing: -3px;
+  font-family: var(--font-heading);
+  font-size: clamp(54px, 6vw, 84px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  text-transform: uppercase;
 }
 
 .hero-description {
-  max-width: 590px;
-  margin: 28px 0 30px;
+  margin: 28px 0 34px;
   color: var(--muted);
   font-size: 16px;
   line-height: 1.8;
@@ -194,41 +199,93 @@ img {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 48px;
-  padding: 15px 22px;
-  border: none;
-  border-radius: 7px;
+  padding: 15px 24px;
+  min-height: 50px;
+  border-radius: 8px;
   background: var(--accent);
-  color: #0b0d0c;
+  color: #050606;
+  text-decoration: none;
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 1px;
-  cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.25s ease;
 }
 
 .primary-button:hover {
-  background: #e0ff66;
+  background: #e5ff55;
   transform: translateY(-2px);
 }
 
 .hero-image {
-  position: relative;
-  overflow: hidden;
-  min-height: 440px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-image img {
   width: 100%;
-  height: 440px;
+  max-width: 540px;
+  height: auto;
   display: block;
-  object-fit: cover;
-  filter: saturate(0.8);
+  object-fit: contain;
 }
 
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .hero-grid {
+    gap: 40px;
+  }
+
+  .hero-title {
+    font-size: clamp(48px, 7vw, 72px);
+  }
+
+  .hero-image img {
+    max-width: 460px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: clamp(40px, 12vw, 60px);
+    line-height: 0.92;
+    letter-spacing: -1.5px;
+  }
+
+  .hero-description {
+    margin: 22px 0 28px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .hero-image img {
+    max-width: 360px;
+  }
+
+  .primary-button {
+    width: fit-content;
+  }
+}
 /* =========================
    LIBRARY
 ========================= */
@@ -261,33 +318,40 @@ img {
 }
 
 /* =========================
-   WORKOUT GRID
+   WORKOUT GRID (FIGMA STYLE)
 ========================= */
 
 .workout-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
 .workout-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 18px;
   background: var(--surface);
-  transition: 0.25s;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
 }
 
 .workout-card:hover {
-  border-color: #596053;
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  border-color: rgba(204,255,0,.35);
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
 }
 
 .card-image {
-  height: 220px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
-  background: #171a18;
+  background: #111412;
 }
 
 .card-image img {
@@ -295,62 +359,121 @@ img {
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: 0.4s;
+  transition: transform .45s ease;
 }
 
 .workout-card:hover .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
+/* CONTENT */
+
 .card-content {
-  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 13px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .tag {
-  padding: 5px 8px;
-  border: 1px solid #353b36;
+  padding: 5px 10px;
+  border: 1px solid rgba(204,255,0,.35);
   border-radius: 999px;
   color: var(--accent);
-  font-size: 9px;
-  font-weight: 900;
+  font-size: 10px;
+  font-weight: 800;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .card-title {
-  margin: 0 0 8px;
-  font-size: 17px;
-  font-weight: 900;
-  line-height: 1.2;
+  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.5px;
+  text-transform: uppercase;
 }
 
 .card-equipment {
-  margin: 0 0 16px;
+  margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .card-stats {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  padding-top: 14px;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
   border-top: 1px solid var(--border);
-  color: #c5c8c3;
-  font-size: 11px;
 }
 
 .card-stat {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  color: #d1d5cf;
+  font-size: 12px;
+  font-weight: 600;
   white-space: nowrap;
+}
+
+.card-stat svg:nth-of-type(1) {
+  color: var(--accent);
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .workout-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .card-title {
+    font-size: 20px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 640px) {
+  .workout-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card-content {
+    padding: 18px;
+  }
+
+  .card-title {
+    font-size: 22px;
+  }
+
+  .card-stats {
+    gap: 8px;
+  }
+
+  .card-stat {
+    font-size: 11px;
+  }
 }
 
 /* =========================
@@ -616,26 +739,33 @@ img {
 
 .details-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 65px;
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  gap: 42px;
+  align-items: stretch;
 }
 
 .details-image-wrapper {
-  position: sticky;
-  top: 110px;
+  display: flex;
   overflow: hidden;
-  min-height: 620px;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--surface);
+  height: 100%;
+  min-height: 720px;
 }
 
 .details-image {
   width: 100%;
-  height: 620px;
+  height: 100%;
+  min-height: 720px;
   display: block;
   object-fit: cover;
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .image-label {
@@ -759,10 +889,8 @@ img {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 30px;
-}
-
-.details-action {
+  margin-top: auto;
+  padding-top: 28px;
   min-height: 50px;
 }
 

@@ -163,54 +163,44 @@ export default function Home() {
 
   return (
     <>
-      {/* =========================
-          HERO
-      ========================= */}
+   {/* =========================
+    HERO
+========================= */}
 
-      <section className="hero">
-        <div className="container hero-grid">
+<section className="hero">
+  <div className="container hero-grid">
 
-          <div>
+    <div className="hero-content">
+      <p className="eyebrow">
+        WORKOUT LIBRARY
+      </p>
 
-            <p className="eyebrow">
-              WORKOUT LIBRARY
-            </p>
+      <h1 className="hero-title">
+        TRAIN WITH INTENT.
+        <br />
+        LOG EVERY SET.
+      </h1>
 
-            <h1 className="hero-title">
-              TRAIN WITH INTENT.
-              <br />
-              LOG EVERY SET.
-            </h1>
+      <p className="hero-description">
+        FitLog is a dark, no-nonsense gym companion: pick a lift,
+        lock it into today&apos;s plan, and watch the week&apos;s work add up.
+      </p>
 
-            <p className="hero-description">
-              FitLog is a dark, no-nonsense gym
-              companion: pick a lift, lock it
-              into today&apos;s plan, and watch
-              the week&apos;s work add up.
-            </p>
+      <a href="#library" className="primary-button">
+        BROWSE WORKOUTS
+        <ArrowDown size={18} strokeWidth={2.5} />
+      </a>
+    </div>
 
-            <a
-              href="#library"
-              className="primary-button"
-            >
-              BROWSE WORKOUTS
-              <ArrowDown size={16} />
-            </a>
+    <div className="hero-image">
+      <img
+        src="/banner.png"
+        alt="Workout Illustration"
+      />
+    </div>
 
-          </div>
-
-          <div className="hero-image">
-            <img
-              src={
-                workouts[0]?.image ||
-                "https://img.magnific.com/free-photo/portrait-anime-character-doing-fitness-exercising_23-2151666664.jpg?w=740"
-              }
-              alt="Workout"
-            />
-          </div>
-
-        </div>
-      </section>
+  </div>
+</section>
 
       {/* =========================
           LIBRARY
@@ -355,95 +345,76 @@ export default function Home() {
             </div>
           )}
 
-          {/* =========================
-              WORKOUT CARDS
-          ========================= */}
+        {/* =========================
+    WORKOUT CARDS
+========================= */}
 
-          {!loading &&
-            sortedWorkouts.length > 0 && (
-              <div className="workout-grid">
+{!loading && sortedWorkouts.length > 0 && (
+  <div className="workout-grid">
 
-                {sortedWorkouts.map(
-                  (workout) => (
-                    <Link
-                      href={`/workout/${workout.id}`}
-                      key={workout.id}
-                      className="workout-card"
-                    >
+    {sortedWorkouts.map((workout) => (
+      <Link
+        href={`/workout/${workout.id}`}
+        key={workout.id}
+        className="workout-card"
+      >
 
-                      {/* IMAGE */}
+        {/* IMAGE */}
 
-                      <div className="card-image">
+        <div className="card-image">
+          <img
+            src={workout.image}
+            alt={workout.name}
+            loading="lazy"
+          />
+        </div>
 
-                        <img
-                          src={workout.image}
-                          alt={workout.name}
-                        />
+        {/* CONTENT */}
 
-                      </div>
+        <div className="card-content">
 
-                      {/* CONTENT */}
+          <div className="tags">
+            {workout.muscleGroups.map((group) => (
+              <span className="tag" key={group}>
+                {group}
+              </span>
+            ))}
+          </div>
 
-                      <div className="card-content">
+          <h3 className="card-title">
+            {workout.name.toUpperCase()}
+          </h3>
 
-                        {/* MUSCLE GROUP TAGS */}
+          <p className="card-equipment">
+            {workout.equipment}
+          </p>
 
-                        <div className="tags">
+          <div className="card-stats">
 
-                          {workout.muscleGroups.map(
-                            (group) => (
-                              <span
-                                className="tag"
-                                key={group}
-                              >
-                                {group}
-                              </span>
-                            )
-                          )}
+            <span className="card-stat">
+              <Clock3 size={14} />
+              {workout.duration} min
+            </span>
 
-                        </div>
+            <span className="card-stat">
+              <Flame size={14} />
+              {workout.caloriesBurned} kcal
+            </span>
 
-                        {/* NAME */}
+            <span className="card-stat">
+              <Star size={14} />
+              {workout.rating}
+            </span>
 
-                        <h3 className="card-title">
-                          {workout.name.toUpperCase()}
-                        </h3>
+          </div>
 
-                        {/* EQUIPMENT */}
+        </div>
 
-                        <p className="card-equipment">
-                          {workout.equipment}
-                        </p>
+      </Link>
+    ))}
 
-                        {/* STATS */}
-
-                        <div className="card-stats">
-
-                          <span className="card-stat">
-                            <Clock3 size={13} />
-                            {workout.duration} min
-                          </span>
-
-                          <span className="card-stat">
-                            <Flame size={13} />
-                            {workout.caloriesBurned} kcal
-                          </span>
-
-                          <span className="card-stat">
-                            <Star size={13} />
-                            {workout.rating}
-                          </span>
-
-                        </div>
-
-                      </div>
-
-                    </Link>
-                  )
-                )}
-
-              </div>
-            )}
+  </div>
+)}
 
           {/* =========================
               NO RESULTS
