@@ -26,8 +26,6 @@ type Workout = {
   instructions: string[];
 };
 
-const API_URL = "/api/fitlog";
-
 export default function Home() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,36 +35,183 @@ export default function Home() {
     useState("ALL");
 
   /* =========================
-     FETCH WORKOUTS
+     WORKOUT DATA
   ========================= */
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        setLoading(true);
+    const fallbackWorkouts: Workout[] = [
+      {
+        id: 1,
+        name: "Push Up",
+        image:
+          "https://images.unsplash.com/photo-1598971639058-a4f3a0e7f7b1?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Chest", "Shoulders", "Triceps"],
+        equipment: "None",
+        difficulty: "Beginner",
+        duration: 15,
+        caloriesBurned: 100,
+        sets: 3,
+        reps: "10-15",
+        rating: 4.8,
+        description:
+          "A simple and effective upper body exercise.",
+        instructions: [
+          "Start in a plank position.",
+          "Lower your body slowly.",
+          "Push yourself back up.",
+        ],
+      },
+      {
+        id: 2,
+        name: "Squat",
+        image:
+          "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Legs", "Glutes"],
+        equipment: "None",
+        difficulty: "Beginner",
+        duration: 20,
+        caloriesBurned: 140,
+        sets: 3,
+        reps: "12-15",
+        rating: 4.7,
+        description:
+          "A basic lower body strength exercise.",
+        instructions: [
+          "Stand with your feet shoulder-width apart.",
+          "Lower your hips down.",
+          "Return to the starting position.",
+        ],
+      },
+      {
+        id: 3,
+        name: "Plank",
+        image:
+          "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Core", "Abs"],
+        equipment: "None",
+        difficulty: "Beginner",
+        duration: 10,
+        caloriesBurned: 80,
+        sets: 3,
+        reps: "30-60 sec",
+        rating: 4.9,
+        description:
+          "An excellent exercise for core stability.",
+        instructions: [
+          "Place your elbows under your shoulders.",
+          "Keep your body straight.",
+          "Hold the position.",
+        ],
+      },
+      {
+        id: 4,
+        name: "Lunges",
+        image:
+          "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Legs", "Glutes"],
+        equipment: "None",
+        difficulty: "Intermediate",
+        duration: 15,
+        caloriesBurned: 120,
+        sets: 3,
+        reps: "10 each leg",
+        rating: 4.6,
+        description:
+          "A great exercise for legs and balance.",
+        instructions: [
+          "Stand straight.",
+          "Step forward with one leg.",
+          "Lower your body and return.",
+        ],
+      },
+      {
+        id: 5,
+        name: "Bicep Curl",
+        image:
+          "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Biceps", "Arms"],
+        equipment: "Dumbbells",
+        difficulty: "Beginner",
+        duration: 15,
+        caloriesBurned: 90,
+        sets: 3,
+        reps: "10-12",
+        rating: 4.7,
+        description:
+          "A classic exercise for building biceps strength.",
+        instructions: [
+          "Hold dumbbells at your sides.",
+          "Curl the weights upward.",
+          "Lower them slowly.",
+        ],
+      },
+      {
+        id: 6,
+        name: "Shoulder Press",
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Shoulders", "Arms"],
+        equipment: "Dumbbells",
+        difficulty: "Intermediate",
+        duration: 20,
+        caloriesBurned: 130,
+        sets: 3,
+        reps: "8-12",
+        rating: 4.8,
+        description:
+          "A compound exercise targeting the shoulders.",
+        instructions: [
+          "Hold dumbbells at shoulder level.",
+          "Press them overhead.",
+          "Lower them back down.",
+        ],
+      },
+      {
+        id: 7,
+        name: "Deadlift",
+        image:
+          "https://images.unsplash.com/photo-1598971639058-a4f3a0e7f7b1?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Back", "Legs", "Glutes"],
+        equipment: "Barbell",
+        difficulty: "Advanced",
+        duration: 30,
+        caloriesBurned: 220,
+        sets: 4,
+        reps: "6-10",
+        rating: 4.9,
+        description:
+          "A powerful full-body strength movement.",
+        instructions: [
+          "Stand behind the barbell.",
+          "Lift the bar while keeping your back straight.",
+          "Lower it with control.",
+        ],
+      },
+      {
+        id: 8,
+        name: "Bench Press",
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80",
+        muscleGroups: ["Chest", "Triceps"],
+        equipment: "Barbell",
+        difficulty: "Intermediate",
+        duration: 25,
+        caloriesBurned: 180,
+        sets: 4,
+        reps: "8-12",
+        rating: 4.8,
+        description:
+          "A popular compound chest exercise.",
+        instructions: [
+          "Lie on the bench.",
+          "Grip the bar slightly wider than your shoulders.",
+          "Lower and press the bar upward.",
+        ],
+      },
+    ];
 
-        const response = await fetch(API_URL);
-
-        if (!response.ok) {
-          throw new Error(
-            "Failed to fetch workouts"
-          );
-        }
-
-        const data = await response.json();
-
-        setWorkouts(data);
-      } catch (error) {
-        console.error(
-          "Workout fetch error:",
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWorkouts();
+    setWorkouts(fallbackWorkouts);
+    setLoading(false);
   }, []);
 
   /* =========================
@@ -162,44 +307,54 @@ export default function Home() {
 
   return (
     <>
-   {/* =========================
-    HERO
-========================= */}
+      {/* =========================
+          HERO
+      ========================= */}
 
-<section className="hero">
-  <div className="container hero-grid">
+      <section className="hero">
+        <div className="container hero-grid">
 
-    <div className="hero-content">
-      <p className="eyebrow">
-        WORKOUT LIBRARY
-      </p>
+          <div className="hero-content">
 
-      <h1 className="hero-title">
-        TRAIN WITH INTENT.
-        <br />
-        LOG EVERY SET.
-      </h1>
+            <p className="eyebrow">
+              WORKOUT LIBRARY
+            </p>
 
-      <p className="hero-description">
-        FitLog is a dark, no-nonsense gym companion: pick a lift,
-        lock it into today&apos;s plan, and watch the week&apos;s work add up.
-      </p>
+            <h1 className="hero-title">
+              TRAIN WITH INTENT.
+              <br />
+              LOG EVERY SET.
+            </h1>
 
-      <a href="#library" className="primary-button">
-        BROWSE WORKOUTS
-        <ArrowDown size={18} strokeWidth={2.5} />
-      </a>
-    </div>
+            <p className="hero-description">
+              FitLog is a dark, no-nonsense gym
+              companion: pick a lift, lock it into
+              today&apos;s plan, and watch the week&apos;s
+              work add up.
+            </p>
 
-    <div className="hero-image">
-      <img
-        src="/banner.png"
-        alt="Workout Illustration"
-      />
-    </div>
+            <a
+              href="#library"
+              className="primary-button"
+            >
+              BROWSE WORKOUTS
+              <ArrowDown
+                size={18}
+                strokeWidth={2.5}
+              />
+            </a>
 
-  </div>
-</section>
+          </div>
+
+          <div className="hero-image">
+            <img
+              src="/banner.png"
+              alt="Workout Illustration"
+            />
+          </div>
+
+        </div>
+      </section>
 
       {/* =========================
           LIBRARY
@@ -209,6 +364,7 @@ export default function Home() {
         id="library"
         className="library"
       >
+
         <div className="container">
 
           {/* SECTION HEADING */}
@@ -303,6 +459,7 @@ export default function Home() {
                     )
                   }
                 >
+
                   <option value="duration">
                     Duration
                   </option>
@@ -314,6 +471,7 @@ export default function Home() {
                   <option value="rating">
                     Rating
                   </option>
+
                 </select>
 
                 <ArrowDown size={14} />
@@ -344,76 +502,88 @@ export default function Home() {
             </div>
           )}
 
-        {/* =========================
-    WORKOUT CARDS
-========================= */}
+          {/* =========================
+              WORKOUT CARDS
+          ========================= */}
 
-{!loading && sortedWorkouts.length > 0 && (
-  <div className="workout-grid">
+          {!loading &&
+            sortedWorkouts.length > 0 && (
+              <div className="workout-grid">
 
-    {sortedWorkouts.map((workout) => (
-      <Link
-        href={`/workout/${workout.id}`}
-        key={workout.id}
-        className="workout-card"
-      >
+                {sortedWorkouts.map(
+                  (workout) => (
+                    <Link
+                      href={`/workout/${workout.id}`}
+                      key={workout.id}
+                      className="workout-card"
+                    >
 
-        {/* IMAGE */}
+                      {/* IMAGE */}
 
-        <div className="card-image">
-          <img
-            src={workout.image}
-            alt={workout.name}
-            loading="lazy"
-          />
-        </div>
+                      <div className="card-image">
 
-        {/* CONTENT */}
+                        <img
+                          src={workout.image}
+                          alt={workout.name}
+                          loading="lazy"
+                        />
 
-        <div className="card-content">
+                      </div>
 
-          <div className="tags">
-            {workout.muscleGroups.map((group) => (
-              <span className="tag" key={group}>
-                {group}
-              </span>
-            ))}
-          </div>
+                      {/* CONTENT */}
 
-          <h3 className="card-title">
-            {workout.name.toUpperCase()}
-          </h3>
+                      <div className="card-content">
 
-          <p className="card-equipment">
-            {workout.equipment}
-          </p>
+                        <div className="tags">
 
-          <div className="card-stats">
+                          {workout.muscleGroups.map(
+                            (group) => (
+                              <span
+                                className="tag"
+                                key={group}
+                              >
+                                {group}
+                              </span>
+                            )
+                          )}
 
-            <span className="card-stat">
-              <Clock3 size={14} />
-              {workout.duration} min
-            </span>
+                        </div>
 
-            <span className="card-stat">
-              <Flame size={14} />
-              {workout.caloriesBurned} kcal
-            </span>
+                        <h3 className="card-title">
+                          {workout.name.toUpperCase()}
+                        </h3>
 
-            <span className="card-stat">
-              <Star size={14} />
-              {workout.rating}
-            </span>
+                        <p className="card-equipment">
+                          {workout.equipment}
+                        </p>
 
-          </div>
+                        <div className="card-stats">
 
-        </div>
+                          <span className="card-stat">
+                            <Clock3 size={14} />
+                            {workout.duration} min
+                          </span>
 
-      </Link>
-    ))}
+                          <span className="card-stat">
+                            <Flame size={14} />
+                            {workout.caloriesBurned} kcal
+                          </span>
 
-  </div>
-)}
+                          <span className="card-stat">
+                            <Star size={14} />
+                            {workout.rating}
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </Link>
+                  )
+                )}
+
+              </div>
+            )}
 
           {/* =========================
               NO RESULTS
@@ -456,8 +626,8 @@ export default function Home() {
             )}
 
         </div>
+
       </section>
     </>
   );
 }
-
